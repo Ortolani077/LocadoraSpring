@@ -1,12 +1,10 @@
 package com.Locadora.Services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.Locadora.Model.Fabricante;
 import com.Locadora.Repository.FabricanteRepository;
@@ -26,15 +24,15 @@ public class FabricanteService {
         return (List<Fabricante>) fabricanteRepository.findAll();
     }
 
-    @Transactional(readOnly = true)
+    // Método para buscar um fabricante pelo ID
     public Optional<Fabricante> buscarFabricantePorId(Long id) {
         return fabricanteRepository.findById(id);
     }
 
-    @Transactional
     public Fabricante salvarFabricante(Fabricante fabricante) {
         return fabricanteRepository.save(fabricante);
     }
+
 
     // Método para atualizar um fabricante existente
     public Fabricante atualizarFabricante(Long id, Fabricante fabricante) {
@@ -48,7 +46,7 @@ public class FabricanteService {
         }
     }
 
-    @Transactional
+    // Método para excluir um fabricante pelo ID
     public void excluirFabricante(Long id) {
         fabricanteRepository.deleteById(id);
     }

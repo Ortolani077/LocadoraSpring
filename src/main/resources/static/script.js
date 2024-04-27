@@ -1,21 +1,38 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // Elementos do formulário e botão
     var fabricanteForm = document.getElementById("fabricante-form");
-document.addEventListener("DOMContentLoaded", function () {
-    var fabricanteForm = document.getElementById("fabricante-form");
+    var mostrarFormButton = document.querySelector(".button-container .glow-on-hover");
 
+    // Evento de clique no botão
+    mostrarFormButton.addEventListener("click", function () {
+        // Alternar a visibilidade do formulário
+        var collapseWhoWeAre = document.getElementById("collapseWhoWeAre");
+        if (collapseWhoWeAre.classList.contains("show")) {
+            fabricanteForm.reset(); // Limpar o formulário
+        }
+    });
+
+    // Adicionar evento de envio ao formulário
     fabricanteForm.addEventListener("submit", function (event) {
-        event.preventDefault(); // Impede o envio do formulário padrão
+        event.preventDefault(); // Impedir o envio padrão do formulário
 
+        // Obter o valor do campo de entrada
         var fabricanteInput = document.getElementById("fabricante");
-        var fabricanteNome = fabricanteInput.value;
+        var fabricanteNome = fabricanteInput.value.trim();
 
-        // Cria um objeto com os dados do formulário
+        // Verificar se o nome do fabricante está vazio
+        if (fabricanteNome === "") {
+            alert("Por favor, insira o nome do fabricante.");
+            return;
+        }
+
+        // Criar objeto com os dados do formulário
         var formData = {
             nome: fabricanteNome
         };
 
-        // Envia uma solicitação AJAX POST para o endpoint correto do controlador Spring Boot
-        fetch('/fabricantes/', {
+        // Enviar solicitação AJAX POST para o endpoint correto do controlador Spring Boot
+        fetch('/locadora/fabricantes/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -25,7 +42,10 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(response => {
             if (response.ok) {
                 alert('Fabricante cadastrado com sucesso!');
-                fabricanteInput.value = ''; // Limpa o campo do fabricante após o envio bem-sucedido
+                fabricanteForm.reset(); // Limpar o formulário após o envio bem-sucedido
+                var collapseWhoWeAre = document.getElementById("collapseWhoWeAre");
+                var bsCollapse = new bootstrap.Collapse(collapseWhoWeAre, { toggle: false });
+                bsCollapse.hide(); // Esconder o formulário após o envio bem-sucedido
             } else {
                 throw new Error('Erro ao cadastrar fabricante');
             }
@@ -35,58 +55,4 @@ document.addEventListener("DOMContentLoaded", function () {
             alert('Erro ao cadastrar fabricante');
         });
     });
-
-    // Adiciona um evento de clique ao documento inteiro
-    document.addEventListener("click", function (event) {
-        // Verifica se o alvo do clique não é o formulário ou um de seus elementos filhos
-        var isClickedInsideForm = fabricanteForm.contains(event.target);
-        if (!isClickedInsideForm) {
-            // Fecha o formulário
-            fabricanteForm.style.display = 'none';
-        }
-    });
-});
-
-    fabricanteForm.addEventListener("submit", function (event) {
-        event.preventDefault(); // Impede o envio do formulário padrão
-
-        var fabricanteInput = document.getElementById("fabricante");
-        var fabricanteNome = fabricanteInput.value;
-
-        // Cria um objeto com os dados do formulário
-        var formData = {
-            nome: fabricanteNome
-        };
-
-        // Envia uma solicitação AJAX POST para o endpoint do controlador Spring Boot
-        fetch('/fabricantes/salvar', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(response => {
-            if (response.ok) {
-                alert('Fabricante cadastrado com sucesso!');
-                fabricanteInput.value = ''; // Limpa o campo do fabricante após o envio bem-sucedido
-            } else {
-                throw new Error('Erro ao cadastrar fabricante');
-            }
-        })
-        .catch(error => {
-            console.error('Erro:', error);
-            alert('Erro ao cadastrar fabricante');
-        });
-    });
-     // Adiciona um evento de clique ao documento inteiro
-    document.addEventListener("click", function (event) {
-        // Verifica se o alvo do clique não é o formulário ou um de seus elementos filhos
-        var isClickedInsideForm = fabricanteForm.contains(event.target);
-        if (!isClickedInsideForm) {
-            // Fecha o formulário
-            fabricanteForm.style.display = 'none';
-        }
-    });
-});
 });

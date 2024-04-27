@@ -35,7 +35,7 @@ public class ModeloServices {
 
     // Método para cadastrar um modelo
     public Modelo cadastrarModelo(Modelo modelo) {
-        Optional<Fabricante> fabricanteOptional = fabricanteRepository.findById(modelo.getFabricante());
+        Optional<Iterable<Fabricante>> fabricanteOptional = Optional.ofNullable(fabricanteRepository.findAllById((Iterable<Long>) modelo.getFabricante()));
         if (fabricanteOptional.isPresent()) {
             return modeloRepository.save(modelo);
         } else {

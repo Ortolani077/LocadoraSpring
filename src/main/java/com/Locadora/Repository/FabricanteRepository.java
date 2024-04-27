@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.Locadora.Controller.FabricanteController;
 import com.Locadora.Model.Fabricante;
 
 @Repository

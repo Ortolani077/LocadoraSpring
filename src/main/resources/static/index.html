@@ -15,7 +15,7 @@
     <div class="bg">
         <div class="nft">
             <div class='main'>
-                <img class='tokenImage' src="editar.jpg" alt="NFT" />
+                <img class='tokenImage' src="veiculoindex.jpg" alt="NFT" />
                 <h2></h2>
                 <p class='description'></p>
                 <div class='tokenInfo'>
@@ -23,28 +23,19 @@
                         <button class="glow-on-hover gradient" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWhoWeAre" aria-expanded="false" aria-controls="collapseWhoWeAre">
                             Cadastro de Fabricantes
                         </button>
-                        <button class="glow-on-hover2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOurServices" aria-expanded="false" aria-controls="collapseOurServices">
-                            
-                        </button>
+                        
                     </div>
                     <div class="collapse expanded-content custom-collapse" id="collapseWhoWeAre">
                         <div class="card card-body" style="color: black;">
-                          <form id="fabricante-form" method="POST" action="/fabricantes">
-    <label for="fabricante">Fabricante:</label>
-    <input type="text" id="fabricante" name="nome"><br><br>
-    <button type="submit" id="salvar-fabricante">Salvar</button>
-</form>
-
-
+							<form id="fabricante-form" method="POST" action="/locadora/fabricantes">
+							    <label for="fabricante">Fabricante:</label>
+							    <input type="text" id="fabricante" name="nome"><br><br>
+							    <button type="submit" class="btn btn-primary">Salvar</button>
+							</form>
 
                         </div>
                     </div>
-                    <div class="collapse expanded-content custom-collapse" id="collapseOurServices">
-                        <div class="card card-body" style="color: black;">
-                            <ul>
-                                <!-- Lista de serviços -->
-                            </ul>
-                        </div>
+                   
                     </div>
                 </div>
             </div>
@@ -86,6 +77,47 @@
                 } else {
                     fabricanteForm.style.display = "none";
                 }
+            });
+
+            // Adicionar evento de envio ao formulário
+            fabricanteForm.addEventListener("submit", function (event) {
+                event.preventDefault(); // Impedir o envio padrão do formulário
+
+                // Obter o valor do campo de entrada
+                var fabricanteInput = document.getElementById("fabricante");
+                var fabricanteNome = fabricanteInput.value.trim();
+
+                // Verificar se o nome do fabricante está vazio
+                if (fabricanteNome === "") {
+                    alert("Por favor, insira o nome do fabricante.");
+                    return;
+                }
+
+                // Criar objeto com os dados do formulário
+                var formData = {
+                    nome: fabricanteNome
+                };
+
+                // Enviar solicitação AJAX POST para o endpoint correto do controlador Spring Boot
+                fetch('/fabricantes/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Fabricante cadastrado com sucesso!');
+                        fabricanteInput.value = ''; // Limpar o campo do fabricante após o envio bem-sucedido
+                    } else {
+                        throw new Error('Erro ao cadastrar fabricante');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    alert('Erro ao cadastrar fabricante');
+                });
             });
         });
     </script>

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.Locadora"})
+
 @EnableJpaRepositories(basePackages = {"com.Locadora.Repository"})
 @EntityScan(basePackages = {"com.Locadora.Model"})
 public class LocadoraApplication {

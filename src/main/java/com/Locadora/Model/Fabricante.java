@@ -9,13 +9,12 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Fabricante implements Serializable {
-    @Id
+    @Id // Adicionando a anotação @Id para indicar o identificador da entidade
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nome;
 
-    // Construtores, getters e setters
     public Long getId() {
         return id;
     }
